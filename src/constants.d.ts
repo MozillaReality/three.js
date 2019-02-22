@@ -178,6 +178,10 @@ export const RGBA_PVRTC_2BPPV1_Format: CompressedPixelFormat;
 // ETC compressed texture formats
 export const RGB_ETC1_Format: CompressedPixelFormat;
 
+// ETC2 compressed texture formats
+export const RGB_ETC2_Format: CompressedPixelFormat;
+export const RGBA_ETC2_Format: CompressedPixelFormat;
+
 // ASTC compressed texture formats
 export const RGBA_ASTC_4x4_Format: CompressedPixelFormat;
 export const RGBA_ASTC_5x4_Format: CompressedPixelFormat;

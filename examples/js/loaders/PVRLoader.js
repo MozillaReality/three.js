@@ -87,6 +87,16 @@ THREE.PVRLoader._parseV3 = function ( pvrDatas ) {
 			format = THREE.RGBA_PVRTC_4BPPV1_Format;
 			break;
 
+		case 22 : // ETC2 4bpp RGB
+			bpp = 4;
+			format = THREE.RGB_ETC2_Format;
+			break;
+
+		case 23 : // ETC2 8bpp RGBA
+			bpp = 8;
+			format = THREE.RGBA_ETC2_Format;
+			break;
+
 		default :
 			console.error( 'THREE.PVRLoader: Unsupported PVR format:', pixelFormat );
 

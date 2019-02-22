@@ -291,6 +291,8 @@
 	var RGBA_PVRTC_4BPPV1_Format = 35842;
 	var RGBA_PVRTC_2BPPV1_Format = 35843;
 	var RGB_ETC1_Format = 36196;
+	var RGB_ETC2_Format = 37492;
+	var RGBA_ETC2_Format = 37496;
 	var RGBA_ASTC_4x4_Format = 37808;
 	var RGBA_ASTC_5x4_Format = 37809;
 	var RGBA_ASTC_5x5_Format = 37810;
@@ -19611,7 +19613,8 @@
 
 				if ( extensions.get( 'WEBGL_compressed_texture_pvrtc' ) ||
 				     extensions.get( 'WEBGL_compressed_texture_s3tc' ) ||
-				     extensions.get( 'WEBGL_compressed_texture_etc1' ) ||
+						 extensions.get( 'WEBGL_compressed_texture_etc1' ) ||
+						 extensions.get( 'WEBGL_compressed_texture_etc' ) ||
 				     extensions.get( 'WEBGL_compressed_texture_astc' ) ) {
 
 					var formats = gl.getParameter( 34467 );
@@ -21264,6 +21267,19 @@
 				extension = extensions.get( 'WEBGL_compressed_texture_etc1' );
 
 				if ( extension !== null ) return extension.COMPRESSED_RGB_ETC1_WEBGL;
+
+			}
+
+			if ( p === RGB_ETC2_Format || p === RGBA_ETC2_Format ) {
+
+				extension = extensions.get( 'WEBGL_compressed_texture_etc' );
+
+				if ( extension !== null ) {
+
+					if ( p === RGB_ETC2_Format ) return extension.COMPRESSED_RGB8_ETC2;
+					if ( p === RGBA_ETC2_Format ) return extension.COMPRESSED_RGBA8_ETC2_EAC;
+
+				}
 
 			}
 
@@ -48331,6 +48347,8 @@
 	exports.RGBA_PVRTC_4BPPV1_Format = RGBA_PVRTC_4BPPV1_Format;
 	exports.RGBA_PVRTC_2BPPV1_Format = RGBA_PVRTC_2BPPV1_Format;
 	exports.RGB_ETC1_Format = RGB_ETC1_Format;
+	exports.RGB_ETC2_Format = RGB_ETC2_Format;
+	exports.RGBA_ETC2_Format = RGBA_ETC2_Format;
 	exports.RGBA_ASTC_4x4_Format = RGBA_ASTC_4x4_Format;
 	exports.RGBA_ASTC_5x4_Format = RGBA_ASTC_5x4_Format;
 	exports.RGBA_ASTC_5x5_Format = RGBA_ASTC_5x5_Format;
