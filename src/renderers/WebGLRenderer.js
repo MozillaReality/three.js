@@ -1015,7 +1015,7 @@ function WebGLRenderer( parameters ) {
 
 	}
 
-	this.compileAndUploadMaterials = function ( scene, camera ) {
+	this.compileAndUploadMaterials = function ( scene, camera, objects ) {
 
 		currentRenderState = renderStates.get( scene, camera );
 		currentRenderState.init();
@@ -1038,29 +1038,34 @@ function WebGLRenderer( parameters ) {
 
 		currentRenderState.setupLights( camera );
 
-		scene.traverse( function ( object ) {
+		for ( var i = 0; i < objects.length; i ++ ) {
 
-			if ( object.material ) {
+			objects[ i ].traverse( function ( object ) {
 
-				if ( Array.isArray( object.material ) ) {
+				if ( object.material ) {
 
-					for ( var i = 0; i < object.material.length; i ++ ) {
+					if ( Array.isArray( object.material ) ) {
 
-						state.setMaterial( object.material[ i ] );
-						setProgram( camera, scene.fog, object.material[ i ], object );
+						for ( var i = 0; i < object.material.length; i ++ ) {
+
+							state.setMaterial( object.material[ i ] );
+							setProgram( camera, scene.fog, object.material[ i ], object );
+
+						}
+
+					} else {
+
+						state.setMaterial( object.material );
+						setProgram( camera, scene.fog, object.material, object );
 
 					}
 
-				} else {
-
-					state.setMaterial( object.material );
-					setProgram( camera, scene.fog, object.material, object );
-
 				}
 
-			}
+			} );
 
-		} );
+
+		}
 
 		currentRenderState = null;
 
