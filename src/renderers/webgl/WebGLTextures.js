@@ -318,8 +318,7 @@ function WebGLTextures( _gl, extensions, state, properties, capabilities, utils,
 
 		}
 
-		state.activeTexture( _gl.TEXTURE0 + slot );
-		state.bindTexture( _gl.TEXTURE_2D, textureProperties.__webglTexture );
+		state.activeTextureThenBindTexture( _gl.TEXTURE0 + slot, _gl.TEXTURE_2D, textureProperties.__webglTexture );
 
 	}
 
@@ -334,8 +333,7 @@ function WebGLTextures( _gl, extensions, state, properties, capabilities, utils,
 
 		}
 
-		state.activeTexture( _gl.TEXTURE0 + slot );
-		state.bindTexture( _gl.TEXTURE_2D_ARRAY, textureProperties.__webglTexture );
+		state.activeTextureThenBindTexture( _gl.TEXTURE0 + slot, _gl.TEXTURE_2D_ARRAY, textureProperties.__webglTexture );
 
 	}
 
@@ -350,8 +348,7 @@ function WebGLTextures( _gl, extensions, state, properties, capabilities, utils,
 
 		}
 
-		state.activeTexture( _gl.TEXTURE0 + slot );
-		state.bindTexture( _gl.TEXTURE_3D, textureProperties.__webglTexture );
+		state.activeTextureThenBindTexture( _gl.TEXTURE0 + slot, _gl.TEXTURE_3D, textureProperties.__webglTexture );
 
 	}
 
@@ -365,8 +362,7 @@ function WebGLTextures( _gl, extensions, state, properties, capabilities, utils,
 
 				initTexture( textureProperties, texture );
 
-				state.activeTexture( _gl.TEXTURE0 + slot );
-				state.bindTexture( _gl.TEXTURE_CUBE_MAP, textureProperties.__webglTexture );
+				state.activeTextureThenBindTexture( _gl.TEXTURE0 + slot, _gl.TEXTURE_CUBE_MAP, textureProperties.__webglTexture );
 
 				_gl.pixelStorei( _gl.UNPACK_FLIP_Y_WEBGL, texture.flipY );
 
@@ -466,8 +462,7 @@ function WebGLTextures( _gl, extensions, state, properties, capabilities, utils,
 
 			} else {
 
-				state.activeTexture( _gl.TEXTURE0 + slot );
-				state.bindTexture( _gl.TEXTURE_CUBE_MAP, textureProperties.__webglTexture );
+				state.activeTextureThenBindTexture( _gl.TEXTURE0 + slot, _gl.TEXTURE_CUBE_MAP, textureProperties.__webglTexture );
 
 			}
 
@@ -477,8 +472,7 @@ function WebGLTextures( _gl, extensions, state, properties, capabilities, utils,
 
 	function setTextureCubeDynamic( texture, slot ) {
 
-		state.activeTexture( _gl.TEXTURE0 + slot );
-		state.bindTexture( _gl.TEXTURE_CUBE_MAP, properties.get( texture ).__webglTexture );
+		state.activeTextureThenBindTexture( _gl.TEXTURE0 + slot, _gl.TEXTURE_CUBE_MAP, properties.get( texture ).__webglTexture );
 
 	}
 
@@ -571,8 +565,7 @@ function WebGLTextures( _gl, extensions, state, properties, capabilities, utils,
 
 		initTexture( textureProperties, texture );
 
-		state.activeTexture( _gl.TEXTURE0 + slot );
-		state.bindTexture( textureType, textureProperties.__webglTexture );
+		state.activeTextureThenBindTexture( _gl.TEXTURE0 + slot, textureType, textureProperties.__webglTexture );
 
 		_gl.pixelStorei( _gl.UNPACK_FLIP_Y_WEBGL, texture.flipY );
 		_gl.pixelStorei( _gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, texture.premultiplyAlpha );

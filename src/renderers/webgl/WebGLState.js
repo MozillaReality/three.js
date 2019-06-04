@@ -829,6 +829,37 @@ function WebGLState( gl, extensions, utils, capabilities ) {
 
 	}
 
+	function activeTextureThenBindTexture( webglSlot, webglType, webglTexture ) {
+
+		if ( webglSlot === undefined ) webglSlot = gl.TEXTURE0 + maxTextures - 1;
+
+		var boundTexture = currentBoundTextures[ webglSlot ];
+
+		if ( boundTexture === undefined ) {
+
+			boundTexture = { type: undefined, texture: undefined };
+			currentBoundTextures[ webglSlot ] = boundTexture;
+
+		}
+
+		if ( boundTexture.type !== webglType || boundTexture.texture !== webglTexture ) {
+
+			if ( currentTextureSlot !== webglSlot ) {
+
+				gl.activeTexture( webglSlot );
+				currentTextureSlot = webglSlot;
+
+			}
+
+			gl.bindTexture( webglType, webglTexture || emptyTextures[ webglType ] );
+
+			boundTexture.type = webglType;
+			boundTexture.texture = webglTexture;
+
+		}
+
+	}
+
 	function compressedTexImage2D() {
 
 		try {
@@ -961,6 +992,7 @@ function WebGLState( gl, extensions, utils, capabilities ) {
 
 		activeTexture: activeTexture,
 		bindTexture: bindTexture,
+		activeTextureThenBindTexture: activeTextureThenBindTexture,
 		compressedTexImage2D: compressedTexImage2D,
 		texImage2D: texImage2D,
 		texImage3D: texImage3D,
