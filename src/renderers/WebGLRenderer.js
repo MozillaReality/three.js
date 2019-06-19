@@ -250,7 +250,7 @@ function WebGLRenderer( parameters ) {
 
 	var extensions, capabilities, state, info;
 	var properties, textures, attributes, geometries, objects;
-	var programCache, renderLists, renderStates;
+	var programCache, renderLists, renderStates, buildRenderList;
 
 	var background, morphtargets, bufferRenderer, indexedBufferRenderer;
 
@@ -335,6 +335,12 @@ function WebGLRenderer( parameters ) {
 	};
 
 	// API
+
+	this.setBuildRenderList = function( callback ) {
+
+		buildRenderList = callback;
+
+	};
 
 	this.getContext = function () {
 
@@ -1212,7 +1218,21 @@ function WebGLRenderer( parameters ) {
 		currentRenderList = renderLists.get( scene, camera );
 		currentRenderList.init();
 
-		projectObject( scene, camera, 0, _this.sortObjects );
+		var shouldProjectObject = true;
+
+		if ( buildRenderList ) {
+
+			shouldProjectObject = buildRenderList( currentRenderList, currentRenderState, scene, camera, this.sortObjects, _frustum, objects, _projScreenMatrix );
+
+		}
+		
+		if (shouldProjectObject) {
+
+			projectObject( scene, camera, 0, _this.sortObjects );
+
+		}
+
+		
 
 		if ( _this.sortObjects === true ) {
 
