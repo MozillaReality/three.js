@@ -1260,6 +1260,31 @@ THREE.GLTFLoader = ( function () {
 		'image/jpeg': THREE.RGBFormat
 	};
 
+	var BLACK_IMAGE = document.createElement( 'canvas' );
+	BLACK_IMAGE.width = 1;
+	BLACK_IMAGE.height = 1;
+	var BLACK_IMAGE_CTX = BLACK_IMAGE.getContext( '2d' );
+	BLACK_IMAGE_CTX.fillStyle = 'black';
+	BLACK_IMAGE_CTX.fillRect( 0, 0, 1, 1 );
+	var WHITE_IMAGE = document.createElement( 'canvas' );
+	WHITE_IMAGE.width = 1;
+	WHITE_IMAGE.height = 1;
+	var WHITE_IMAGE_CTX = WHITE_IMAGE.getContext( '2d' );
+	WHITE_IMAGE_CTX.fillStyle = 'white';
+	WHITE_IMAGE_CTX.fillRect( 0, 0, 1, 1 );
+
+	var DEFAULT_BASE_COLOR_MAP = new THREE.Texture( WHITE_IMAGE );
+	DEFAULT_BASE_COLOR_MAP.encoding = THREE.sRGBEncoding;
+	var DEFAULT_METALNESS_MAP = new THREE.Texture( BLACK_IMAGE );
+	DEFAULT_METALNESS_MAP.format = THREE.RGBFormat;
+	var DEFAULT_ROUGHNESS_MAP = new THREE.Texture( BLACK_IMAGE );
+	DEFAULT_ROUGHNESS_MAP.format = THREE.RGBFormat;
+	var DEFAULT_AO_MAP = new THREE.Texture( BLACK_IMAGE );
+	DEFAULT_AO_MAP.format = THREE.RGBFormat;
+	var DEFAULT_EMISSIVE_MAP = new THREE.Texture( BLACK_IMAGE );
+	DEFAULT_EMISSIVE_MAP.format = THREE.RGBFormat;
+	DEFAULT_EMISSIVE_MAP.encoding = THREE.sRGBEncoding;
+
 	/* UTILITY FUNCTIONS */
 
 	function resolveURL( url, path ) {
@@ -2256,6 +2281,10 @@ THREE.GLTFLoader = ( function () {
 
 				pending.push( parser.assignTexture( materialParams, 'map', metallicRoughness.baseColorTexture ) );
 
+			} else {
+
+				materialParams['map'] = DEFAULT_BASE_COLOR_MAP;
+
 			}
 
 			materialParams.metalness = metallicRoughness.metallicFactor !== undefined ? metallicRoughness.metallicFactor : 1.0;
@@ -2265,6 +2294,11 @@ THREE.GLTFLoader = ( function () {
 
 				pending.push( parser.assignTexture( materialParams, 'metalnessMap', metallicRoughness.metallicRoughnessTexture ) );
 				pending.push( parser.assignTexture( materialParams, 'roughnessMap', metallicRoughness.metallicRoughnessTexture ) );
+
+			} else {
+
+				materialParams['metalnessMap'] = DEFAULT_METALNESS_MAP;
+				materialParams['roughnessMap'] = DEFAULT_ROUGHNESS_MAP;
 
 			}
 
@@ -2308,27 +2342,52 @@ THREE.GLTFLoader = ( function () {
 
 		}
 
-		if ( materialDef.occlusionTexture !== undefined && materialType !== THREE.MeshBasicMaterial ) {
+		if ( materialType !== THREE.MeshBasicMaterial ) {
 
-			pending.push( parser.assignTexture( materialParams, 'aoMap', materialDef.occlusionTexture ) );
+			if ( materialDef.occlusionTexture !== undefined ) {
 
-			if ( materialDef.occlusionTexture.strength !== undefined ) {
+				pending.push( parser.assignTexture( materialParams, 'aoMap', materialDef.occlusionTexture ) );
 
-				materialParams.aoMapIntensity = materialDef.occlusionTexture.strength;
+				if ( materialDef.occlusionTexture.strength !== undefined ) {
+
+					materialParams.aoMapIntensity = materialDef.occlusionTexture.strength;
+
+				}
+
+			} else {
+
+				materialParams['aoMap'] = DEFAULT_AO_MAP;
+				materialParams.aoMapIntensity = 0;
 
 			}
 
 		}
 
-		if ( materialDef.emissiveFactor !== undefined && materialType !== THREE.MeshBasicMaterial ) {
+		if (  materialType !== THREE.MeshBasicMaterial ) {
 
-			materialParams.emissive = new THREE.Color().fromArray( materialDef.emissiveFactor );
+			if ( materialDef.emissiveFactor !== undefined ) {
+
+				materialParams.emissive = new THREE.Color().fromArray( materialDef.emissiveFactor );
+
+			} else {
+
+				materialParams.emissive = new THREE.Color();
+
+			}
 
 		}
 
-		if ( materialDef.emissiveTexture !== undefined && materialType !== THREE.MeshBasicMaterial ) {
+		if ( materialType !== THREE.MeshBasicMaterial ) {
 
-			pending.push( parser.assignTexture( materialParams, 'emissiveMap', materialDef.emissiveTexture ) );
+			if ( materialDef.emissiveTexture !== undefined ) {
+
+				pending.push( parser.assignTexture( materialParams, 'emissiveMap', materialDef.emissiveTexture ) );
+
+			} else {
+
+				materialParams['emissiveMap'] = DEFAULT_EMISSIVE_MAP;
+
+			}
 
 		}
 
