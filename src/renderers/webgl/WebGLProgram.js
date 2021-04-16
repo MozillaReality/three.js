@@ -60,9 +60,11 @@ function getShaderErrors( gl, shader, type ) {
 	// --enable-privileged-webgl-extension
 	// console.log( '**' + type + '**', gl.getExtension( 'WEBGL_debug_shaders' ).getTranslatedShaderSource( shader ) );
 
-	var source = gl.getShaderSource( shader );
+	// var source = gl.getShaderSource( shader );
 
-	return 'THREE.WebGLShader: gl.getShaderInfoLog() ' + type + '\n' + log + addLineNumbers( source );
+	// return 'THREE.WebGLShader: gl.getShaderInfoLog() ' + type + '\n' + log + addLineNumbers( source );
+
+	return 'THREE.WebGLShader: gl.getShaderInfoLog() ' + type + '\n' + log;
 
 }
 
