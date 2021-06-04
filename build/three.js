@@ -23478,6 +23478,19 @@
 
 			}
 
+			if ( p === RGB_ETC2_Format || p === RGBA_ETC2_EAC_Format ) {
+
+				extension = extensions.get( 'WEBGL_compressed_texture_etc' );
+
+				if ( extension !== null ) {
+
+					if ( p === RGB_ETC2_Format ) { return extension.COMPRESSED_RGB8_ETC2; }
+					if ( p === RGBA_ETC2_EAC_Format ) { return extension.COMPRESSED_RGBA8_ETC2_EAC; }
+
+				}
+
+			}
+
 			if ( p === RGBA_ASTC_4x4_Format || p === RGBA_ASTC_5x4_Format || p === RGBA_ASTC_5x5_Format ||
 				p === RGBA_ASTC_6x5_Format || p === RGBA_ASTC_6x6_Format || p === RGBA_ASTC_8x5_Format ||
 				p === RGBA_ASTC_8x6_Format || p === RGBA_ASTC_8x8_Format || p === RGBA_ASTC_10x5_Format ||
